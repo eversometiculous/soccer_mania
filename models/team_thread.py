@@ -16,7 +16,7 @@ class Team_thread(db.Model):
     team = db.relationship('Team', back_populates='team_threads')         # the r in relationship is small
 
 class Team_threadSchema(ma.Schema):
-    user = fields.Nested('UserSchema', only=['username', 'id'])
+    user = fields.Nested('UserSchema', only=['username', 'id', 'favourite_player'])
     team = fields.Nested('TeamSchema', only=['team_name'])
 
     class Meta:

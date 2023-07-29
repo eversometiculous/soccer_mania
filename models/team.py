@@ -14,7 +14,7 @@ class Team(db.Model):
     user = db.relationship('User', back_populates='team')
 
 class TeamSchema(ma.Schema):
-    user = fields.Nested('UserSchema', only=['username', 'id'])
+    user = fields.Nested('UserSchema', only=['username', 'id', 'favourite_player'])
     team_threads = fields.List(fields.Nested('Team_threadSchema', only=['title', 'date']))
 
     class Meta:
