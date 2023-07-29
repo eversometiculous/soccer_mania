@@ -13,11 +13,11 @@ class Team_thread(db.Model):
     team_id = db.Column(db.Integer, db.ForeignKey('teams.id'), nullable=False)
 
     user = db.relationship('User', back_populates='team_threads')         # the r in relationship is small
-    team = db.relationship('Team', back_populates='teams')         # the r in relationship is small
+    team = db.relationship('Team', back_populates='team_threads')         # the r in relationship is small
 
 class Team_threadSchema(ma.Schema):
-    user = fields.Nested('UserSchema', only=['name', 'email'])
-    team = fields.Nested('TeamSchema', only=['user_id'])
+    user = fields.Nested('UserSchema', only=['username', 'id'])
+    team = fields.Nested('TeamSchema', only=['team_name'])
 
     class Meta:
         fields = ('id', 'title', 'description', 'date', 'user', 'team')

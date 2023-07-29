@@ -8,6 +8,7 @@ class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String)
     email = db.Column(db.String, nullable=False, unique=True)
+    username = db.Column(db.String, nullable=False, unique=True)
     password = db.Column(db.String, nullable=False)
     is_admin = db.Column(db.Boolean, default=False)
 
@@ -16,11 +17,12 @@ class User(db.Model):
 
 class UserSchema(ma.Schema):
 
-    team_threads = fields.List(fields.Nested('Team_threadSchema', exclude=['user']))
-    team = fields.Nested('TeamSchema', only=['user_id'])
+    team_threads = fields.List(fields.Nested('Team_threadSchema', only=['title', 'date']))
+    team = fields.Nested('TeamSchema', only=['team_name'])
 
     class Meta:
-        fields = ('id', 'name', 'email', 'password', 'is_admin', 'teams', 'team_threads')
+        fields = ('id', 'name', 'username', 'email', 'password', 'is_admin', 'team', 'team_threads')
+        ordered = True
         
 user_schema = UserSchema(exclude=['password'])
 users_schema = UserSchema(many=True, exclude=['password'])
