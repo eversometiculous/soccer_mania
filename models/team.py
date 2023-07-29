@@ -18,7 +18,7 @@ class TeamSchema(ma.Schema):
     team_threads = fields.List(fields.Nested('Team_threadSchema', only=['title', 'date']))
 
     class Meta:
-        fields = ('id', 'team_name', 'user', 'team_threads')
+        fields = ('id', 'team_name', 'trophies_won', 'user', 'team_threads')
         ordered = True
 
 team_schema=TeamSchema()
