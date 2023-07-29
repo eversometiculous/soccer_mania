@@ -13,16 +13,18 @@ class User(db.Model):
     is_admin = db.Column(db.Boolean, default=False)
     favourite_player = db.Column(db.String)
 
-    team_threads = db.relationship('Team_thread', back_populates='user', cascade='all, delete')
-    team = db.relationship('Team', back_populates='user', cascade='all, delete')
+    team_threads = db.relationship('Team_thread', back_populates='user')
+    team = db.relationship('Team', back_populates='user')
+    comments = db.relationship('Comments', back_populates='user', cascade='all, delete')
 
 class UserSchema(ma.Schema):
 
     team_threads = fields.List(fields.Nested('Team_threadSchema', only=['title', 'date']))
     team = fields.Nested('TeamSchema', only=['team_name'])
+    comments = field.List(fields.Nested('CommentSchema', only=['id', 'date', 'message']))
 
     class Meta:
-        fields = ('id', 'name', 'username', 'email', 'password', 'favourite_player', 'is_admin', 'team', 'team_threads')
+        fields = ('id', 'name', 'username', 'email', 'password', 'favourite_player', 'is_admin', 'team', 'team_threads', 'comments')
         ordered = True
         
 user_schema = UserSchema(exclude=['password'])
