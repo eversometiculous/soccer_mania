@@ -17,6 +17,8 @@ def auth_register(): # try except with psycopg2 errorcodes work here as you are 
         user = User() # Instance of the User class which is in turn a SQLAlchemy model
         user.name = body_data.get('name')
         user.email = body_data.get('email')
+        user.username = body_data.get('username')
+        user.favourite_player = body_data.get('favourite_player')
         if body_data.get('password'):
             user.password = bcrypt.generate_password_hash(body_data.get('password')).decode('utf-8')
         # Add the user to the session
@@ -40,7 +42,7 @@ def auth_login():       # cannot use try, except and run psycopg2 as this data e
     # Check if user exists and if password is correct
     if user and bcrypt.check_password_hash(user.password, body_data.get('password')):
         token = create_access_token(identity=str(user.id), expires_delta=timedelta(days=1))
-        return { 'email': user.email, 'token': token, 'is_admin': user.is_admin }
+        return { 'username': user.username,'email': user.email, 'token': token, 'is_admin': user.is_admin }
     else:
         return { 'error': 'Invalid email or password entered. Please try again!' }, 401
-    
+     
