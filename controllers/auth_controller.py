@@ -44,4 +44,4 @@ def auth_login():       # cannot use try, except and run psycopg2 as this data e
         return { 'username': user.username,'email': user.email, 'token': token, 'is_admin': user.is_admin }
     else:
         return { 'error': 'Invalid email or password entered. Please try again!' }, 401
-    
+     

@@ -6,6 +6,7 @@ class Team(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     team_name = db.Column(db.String, unique=True, nullable=False)
+    trophies_won = db.Column(db.Text)
 
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
 
