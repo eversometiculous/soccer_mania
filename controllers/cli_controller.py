@@ -26,13 +26,15 @@ def seed_db():
             email='admin@admin.com',
             username='OGAdmin',
             password=bcrypt.generate_password_hash('admin123').decode('utf-8'),
-            is_admin=True
+            is_admin=True,
+            favourite_player='Thierry Henry'
         ),
         User(
             name='User1',
             email='user1@email.com',
             username='OGUser',
-            password=bcrypt.generate_password_hash('user1pw').decode('utf-8')
+            password=bcrypt.generate_password_hash('user1pw').decode('utf-8'),
+            favourite_player='Dennis Bergkamp'
         ),
     ]
 
