@@ -4,11 +4,12 @@ from models.user import User, user_schema, users_schema
 from flask_jwt_extended import create_access_token
 from sqlalchemy.exc import IntegrityError
 from psycopg2 import errorcodes
+from datetime import timedelta
 
 auth_bp = Blueprint('auth', __name__, url_prefix='/auth')
 
 @auth_bp.route('/register', methods=['POST'])
-def auth_register():
+def auth_register(): # try except with psycopg2 errorcodes work here as you are entering new data
     try:
         body_data = request.get_json()
 
@@ -29,3 +30,17 @@ def auth_register():
             return { 'error': f'{err.orig.diag.message_detail}'}, 409
         if err.orig.pgcode == errorcodes.NOT_NULL_VIOLATION: # serves as errorcode for not null violations
             return { 'error': f'The {err.orig.diag.column_name} is required' }, 409 # for whatever field that is null
+        
+@auth_bp.route('/login', methods=['POST'])
+def auth_login():       # cannot use try, except and run psycopg2 as this data exists already as opposed to entering new data
+    body_data = request.get_json()
+    # Find the user by email address
+    stmt = db.select(User).filter_by(email=body_data.get('email'))
+    user = db.session.scalar(stmt)
+    # Check if user exists and if password is correct
+    if user and bcrypt.check_password_hash(user.password, body_data.get('password')):
+        token = create_access_token(identity=str(user.id), expires_delta=timedelta(days=1))
+        return { 'email': user.email, 'token': token, 'is_admin': user.is_admin }
+    else:
+        return { 'error': 'Invalid email or password entered. Please try again!' }, 401
+    
