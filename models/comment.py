@@ -11,8 +11,8 @@ class Comment(db.Model):
     team_thread_id = db.Column(db.Integer, db.ForeignKey('team_threads.id'), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
 
-    user = db.relationship('User', back_populates='comment')
-    team_thread = db.relationship('Team_thread', back_populates='comment')
+    user = db.relationship('User', back_populates='comments')
+    team_thread = db.relationship('Team_thread', back_populates='comments')
 
 class CommentSchema(ma.Schema):
     user = fields.Nested('UserSchema', only=['username', 'id', 'favourite_player'])
