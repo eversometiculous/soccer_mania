@@ -24,4 +24,4 @@ class Team_threadSchema(ma.Schema):
         ordered = True
 
 team_thread_schema = Team_threadSchema()
-team_threads_schema = Team_threadSchema(many=True)
+team_threads_schema = Team_threadSchema(many=True) 
