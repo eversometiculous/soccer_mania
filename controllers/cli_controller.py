@@ -4,6 +4,7 @@ from models.user import User
 from models.team_thread import Team_thread
 from datetime import date
 from models.team import Team
+from models.comment import Comment
 
 db_commands = Blueprint('db', __name__)
 
@@ -88,6 +89,36 @@ def seed_db():
     ]
 
     db.session.add_all(team_threads)
+
+    comments = [
+        Comment(
+            message="First post",
+            user=users[0],
+            team_thread=team_threads[0],
+            date=date.today()
+        ),
+        Comment(
+            message="Test post",
+            user=users[1],
+            team_thread=team_threads[1],
+            date=date.today()
+        ),
+        Comment(
+            message="Arsenal signed Declan Rice!!!",
+            user=users[0],
+            team_thread=team_threads[0],
+            date=date.today()
+        ),
+        Comment(
+            message="Out of topic, but how is everyone feeling about the Women's World Cup?",
+            user=users[1],
+            team_thread=team_threads[2],
+            date=date.today()
+        )
+    ]
+
+    db.session.add_all(comments)
+
     db.session.commit()
 
     print("Tables Seeded")
