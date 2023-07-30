@@ -5,6 +5,7 @@ from datetime import date
 from flask_jwt_extended import get_jwt_identity, jwt_required
 from models.user import User, user_schema, users_schema
 from controllers.comment_controller import comments_bp
+from models.team import Team, team_schema, teams_schema
 
 team_threads_bp = Blueprint('team_threads', __name__, url_prefix='/team_threads')
 team_threads_bp.register_blueprint(comments_bp)
@@ -27,14 +28,22 @@ def get_one_team_thread(id):
 @team_threads_bp.route('/', methods=['POST'])
 @jwt_required()
 def create_team_thread():
-    body_data = request.get_json()
+    body_data = team_thread_schema.load(request.get_json())  # team_thread_schema.load is required to do marshmallow validation(eg. 2 min characters).
+    # Otherwise it will not bother with marshmallow min character length. If it just have body_data = request.get_json(), min characters wont matter.
     # create a new Team thread model instance
+    user_id = get_jwt_identity()
+    user = User.query.get(user_id)
+    if not user:
+        return jsonify(message="User not found"), 404
+    if not user.team:
+        return jsonify(message="User's team not found"), 404
+
     team_thread = Team_thread(
         title=body_data.get('title'),
         description=body_data.get('description'),
         date=date.today(),
-        user_id=get_jwt_identity(),
-        team_id=get_jwt_identity()
+        user=user,
+        team=user.team
     )
     # Add that team_thread to the session
     db.session.add(team_thread)
@@ -58,7 +67,7 @@ def delete_one_team_thread(id):
 @team_threads_bp.route('/<int:id>', methods=['PUT', 'PATCH'])
 @jwt_required()
 def update_one_team_thread(id):
-    body_data = request.get_json()
+    body_data = team_thread_schema.load(request.get_json(), partial=True)
     stmt = db.select(Team_thread).filter_by(id=id)
     team_thread = db.session.scalar(stmt)
     if team_thread:

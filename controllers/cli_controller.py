@@ -57,14 +57,14 @@ def seed_db():
             email='user1@email.com',
             username='OGUser',
             password=bcrypt.generate_password_hash('user1pw').decode('utf-8'),
-            favourite_player='Dennis Bergkamp',
+            favourite_player='Wayne Rooney',
             team=teams[0]
         ),
         User(
             name='User2',
             email='user2@email.com',
             username='ManUtdFan',
-            password=bcrypt.generate_password_hash('user1pw').decode('utf-8'),
+            password=bcrypt.generate_password_hash('user2pw').decode('utf-8'),
             favourite_player='Christiano Ronaldo',
             team=teams[1]
         )
