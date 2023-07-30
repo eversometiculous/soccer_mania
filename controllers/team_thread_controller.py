@@ -53,7 +53,7 @@ def create_team_thread():
     # Respond to the client
     return team_thread_schema.dump(team_thread), 201
 
-@team_threads_bp.route('/<int:id>', methods=['DELETE'])
+@team_threads_bp.route('/<int:id>', methods=['DELETE']) # only admins can delete for now
 @jwt_required()
 def delete_one_team_thread(id):
     is_admin = authorise_as_admin()
@@ -68,12 +68,15 @@ def delete_one_team_thread(id):
     else:
         return { 'error': f'Team thread with id no.{id} does not exist and can not be deleted!'}, 404
     
-@team_threads_bp.route('/<int:id>', methods=['PUT', 'PATCH'])
+@team_threads_bp.route('/<int:id>', methods=['PUT', 'PATCH']) # only users who created the card can edit the card
 @jwt_required()
 def update_one_team_thread(id):
     body_data = team_thread_schema.load(request.get_json(), partial=True)
     stmt = db.select(Team_thread).filter_by(id=id)
     team_thread = db.session.scalar(stmt)
+    if team_thread:
+        if str(team_thread.user_id) != get_jwt_identity():
+            return { 'error': 'Sorry! Only the person who created the team thread can edit the team thread!'}, 403
     if team_thread:
         team_thread.title = body_data.get('title') or team_thread.title
         team_thread.description = body_data.get('description') or team_thread.description
