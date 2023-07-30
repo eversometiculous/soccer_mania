@@ -13,9 +13,11 @@ class User(db.Model):
     is_admin = db.Column(db.Boolean, default=False)
     favourite_player = db.Column(db.String)
 
-    team_threads = db.relationship('Team_thread', back_populates='user')
-    team = db.relationship('Team', back_populates='user')
-    comments = db.relationship('Comment', back_populates='user', cascade='all, delete')
+    team_id = db.Column(db.Integer, db.ForeignKey('teams.id'), nullable=False)
+
+    team_threads = db.relationship('Team_thread', back_populates='user', cascade='all, delete-orphan')
+    team = db.relationship('Team', back_populates='users')
+    comments = db.relationship('Comment', back_populates='user', cascade='all, delete-orphan')
 
 
 class UserSchema(ma.Schema):

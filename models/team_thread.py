@@ -14,12 +14,12 @@ class Team_thread(db.Model):
 
     user = db.relationship('User', back_populates='team_threads')         # the r in relationship is small
     team = db.relationship('Team', back_populates='team_threads')         # the r in relationship is small
-    comments = db.relationship('Comment', back_populates='team_thread', cascade='all, delete') 
+    comments = db.relationship('Comment', back_populates='team_thread', cascade='all, delete-orphan') 
 
 class Team_threadSchema(ma.Schema):
-    user = fields.Nested('UserSchema', only=['username', 'id', 'favourite_player'])
+    user = fields.Nested('UserSchema', only=['username', 'id', 'favourite_player', 'is_admin'])
     team = fields.Nested('TeamSchema', only=['team_name'])
-    comments = fields.List(fields.Nested('CommentSchema', only=['id', 'date', 'message']))
+    comments = fields.List(fields.Nested('CommentSchema', only=['id', 'date', 'message', 'user']))
 
     class Meta:
         fields = ('id', 'title', 'description', 'date', 'user', 'team', 'comments')
