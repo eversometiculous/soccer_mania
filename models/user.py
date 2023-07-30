@@ -26,6 +26,10 @@ class UserSchema(ma.Schema):
     team = fields.Nested('TeamSchema', only=['team_name'])
     comments = fields.List(fields.Nested('CommentSchema', only=['id', 'date', 'message']))
 
+    email = fields.String(validate=(
+        Length(min=2, error='Title must be at least 5 characters long!')
+    ))
+
     class Meta:
         fields = ('id', 'name', 'username', 'email', 'password', 'favourite_player', 'is_admin', 'team', 'team_threads', 'comments')
         ordered = True

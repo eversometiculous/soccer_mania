@@ -27,6 +27,10 @@ class Team_threadSchema(ma.Schema):
         Regexp('^[a-zA-Z0-9 ]+$', error='Only letters, spaces and numbers are allowed')
     ))
 
+    description = fields.String(validate=(
+        Length(min=2, error='Title must be at least 2 characters long!')
+    ))
+
     class Meta:
         fields = ('id', 'title', 'description', 'date', 'user', 'team', 'comments')
         ordered = True

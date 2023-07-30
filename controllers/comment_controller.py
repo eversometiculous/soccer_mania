@@ -14,7 +14,7 @@ comments_bp = Blueprint('comments', __name__, url_prefix='/<int:team_thread_id>/
 @comments_bp.route('/', methods=['POST'])
 @jwt_required()
 def create_comment(team_thread_id):
-    body_data = request.get_json()
+    body_data = comment_schema.load(request.get_json())
     stmt = db.select(Team_thread).filter_by(id=team_thread_id) # select * from team_threads where id = team_thread_id
     team_thread = db.session.scalar(stmt)
     if team_thread:
@@ -46,7 +46,7 @@ def delete_comment(team_thread_id, comment_id):
 @comments_bp.route('/<int:comment_id>', methods=['PUT', 'PATCH'])
 @jwt_required()
 def update_comment(team_thread_id, comment_id):
-    body_data = request.get_json()
+    body_data = comment_schema.load(request.get_json(), partial=True)
     stmt = db.select(Comment).filter_by(id=comment_id)
     comment = db.session.scalar(stmt)
     if comment:
