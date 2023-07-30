@@ -1,5 +1,6 @@
 from init import db, ma
 from marshmallow import fields
+from marshmallow.validate import Length, And, Regexp
 
 class Team(db.Model):
     __tablename__ = 'teams'
@@ -14,6 +15,10 @@ class Team(db.Model):
 class TeamSchema(ma.Schema):
     users = fields.List(fields.Nested('UserSchema', only=['username', 'id', 'favourite_player', 'is_admin']))
     team_threads = fields.List(fields.Nested('Team_threadSchema', only=['title', 'date', 'user']))
+
+    team_name = fields.String(validate=(
+        Length(min=2, error='Title must be at least 2 characters long!')
+    ))
 
     class Meta:
         fields = ('id', 'team_name', 'trophies_won', 'user', 'team_threads')
