@@ -6,6 +6,7 @@ from flask_jwt_extended import get_jwt_identity, jwt_required
 from models.user import User, user_schema, users_schema
 from controllers.comment_controller import comments_bp
 from models.team import Team, team_schema, teams_schema
+from models.user import User
 
 team_threads_bp = Blueprint('team_threads', __name__, url_prefix='/team_threads')
 team_threads_bp.register_blueprint(comments_bp)
@@ -55,6 +56,9 @@ def create_team_thread():
 @team_threads_bp.route('/<int:id>', methods=['DELETE'])
 @jwt_required()
 def delete_one_team_thread(id):
+    is_admin = authorise_as_admin()
+    if not is_admin:
+        return { 'error': 'Sorry, you are not authorised to delete this team thread!'}, 403
     stmt = db.select(Team_thread).filter_by(id=id)
     team_thread = db.session.scalar(stmt)
     if team_thread:
@@ -78,3 +82,9 @@ def update_one_team_thread(id):
         return team_thread_schema.dump(team_thread)
     else:
         return { 'error': f'The team thread with id no.{id} does not exist and cannot be updated!'}, 404
+    
+def authorise_as_admin():
+    user_id = get_jwt_identity()
+    stmt = db.select(User).filter_by(id=user_id)
+    user = db.session.scalar(stmt)
+    return user.is_admin
