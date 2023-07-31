@@ -22,9 +22,7 @@ class TeamSchema(ma.Schema):
     stadium = fields.List(fields.Nested('StadiumSchema', only=['stadium_name']))
     players = fields.List(fields.Nested('PlayerSchema', only=['name']))
 
-    team_name = fields.String(validate=(
-        Length(min=2, error='Title must be at least 2 characters long!')
-    ))
+    team_name = fields.String(validate=(Length(min=2, error='Team name must be at least 2 characters long!')))
 
     class Meta:
         fields = ('id', 'team_name', 'trophies_won', 'manager', 'stadium', 'players', 'users', 'team_threads')

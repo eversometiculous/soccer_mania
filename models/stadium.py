@@ -1,5 +1,6 @@
 from init import db, ma
 from marshmallow import fields
+from marshmallow.validate import Length, Regexp, And
 
 class Stadium(db.Model):
 	__tablename__ = 'stadiums'
@@ -15,6 +16,14 @@ class Stadium(db.Model):
 
 class StadiumSchema(ma.Schema):
 	team = fields.Nested('TeamSchema', only=['team_name'])
+
+	stadium_name =  fields.String(validate=(Length(min=2, error='Stadium name must be at least 2 characters long!')))
+	location =  fields.String(validate=(Length(min=2, error='Location must be at least 2 characters long!')))
+	year_built = fields.String(required=True, validate=And(
+	    Length(min=2, error='The year built must be at least 2 characters long!'),
+		Regexp('^[0-9]+$', error='Only numbers are allowed')
+    ))
+
 
 	class Meta:
 		fields = ('id', 'stadium_name',  'team_id', 'location', 'year_built', 'team')
