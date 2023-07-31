@@ -105,10 +105,3 @@ def update_one_team_thread(id):
         return team_thread_schema.dump(team_thread)
     else:
         return { 'error': f'The team thread with id no.{id} does not exist and cannot be updated!'}, 404
-
-    
-# def authorise_as_admin():
-#     user_id = get_jwt_identity()
-#     stmt = db.select(User).filter_by(id=user_id)
-#     user = db.session.scalar(stmt)
-#     return user.is_admin

@@ -6,6 +6,7 @@ from sqlalchemy.exc import IntegrityError
 from psycopg2 import errorcodes
 from datetime import timedelta
 from models.team import Team, team_schema, teams_schema
+from controllers.team_thread_controller import authorise_as_admin
 
 auth_bp = Blueprint('auth', __name__, url_prefix='/auth')
 
@@ -53,20 +54,15 @@ def auth_login():       # cannot use try, except and run psycopg2 as this data e
      
 @auth_bp.route('/users/<int:id>', methods=['DELETE'])
 @jwt_required()
+@authorise_as_admin
 def auth_delete_one_user(id):
-    admin_id = get_jwt_identity()
-    admin = User.query.get(admin_id)
     stmt = db.select(User).filter_by(id=id)
     user_to_delete = db.session.scalar(stmt)
 
     if user_to_delete:
-        # Check if the user is an admin
-        if admin.is_admin:
-            db.session.delete(user_to_delete)
-            db.session.commit()
-            return { 'message': f'User {user_to_delete.username} deleted successfully!'}
-        else:
-            return { 'error': 'Only the admin can delete users!! Sorry!!'}, 403
+        db.session.delete(user_to_delete)
+        db.session.commit()
+        return { 'message': f'User {user_to_delete.username} deleted successfully!'}
     else:
         return { 'error': f'The user with id no.{id} does not exist and cannot be deleted!!!'}, 404
     
@@ -81,7 +77,7 @@ def update_one_user(id):
         user_id = get_jwt_identity()
         user = User.query.get(user_id)
 
-        # Check if the user is either the owner of the user profile being updated
+        # Check if the user is the owner of the user profile being updated
         if user.id == user_to_update.id:
             user.name = body_data.get('name') or user.name
             user.email = body_data.get('email') or user.email

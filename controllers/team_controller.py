@@ -7,6 +7,7 @@ from models.user import User, user_schema, users_schema
 from controllers.comment_controller import comments_bp
 from models.team import Team, team_schema, teams_schema
 from models.user import User
+from controllers.team_thread_controller import authorise_as_admin
 
 teams_bp = Blueprint('teams', __name__, url_prefix='/teams')
 
@@ -43,41 +44,30 @@ def create_team():
 
 @teams_bp.route('/<int:id>', methods=['DELETE'])        # only admins can delete
 @jwt_required()
+@authorise_as_admin
 def delete_one_team(id):
-    user_id = get_jwt_identity()
-    user = User.query.get(user_id)
     stmt = db.select(Team).filter_by(id=id)
     team = db.session.scalar(stmt)
 
     if team:
-        # Check if the user is an admin
-        if user.is_admin:
-            db.session.delete(team)
-            db.session.commit()
-            return { 'message': f'Team {team.team_name} deleted successfully!'}
-        else:
-            return { 'error': 'Only the admin can delete teams!! Sorry!!'}, 403
+        db.session.delete(team)
+        db.session.commit()
+        return { 'message': f'Team {team.team_name} deleted successfully!'}
     else:
         return { 'error': f'Team with id no.{id} does not exist and cannot be deleted!!!'}, 404
     
 @teams_bp.route('/<int:id>', methods=['PUT', 'PATCH'])           # only admins can edit or update
 @jwt_required()
+@authorise_as_admin
 def update_one_team(id):
     body_data = team_schema.load(request.get_json(), partial=True)
     stmt = db.select(Team).filter_by(id=id)
     team = db.session.scalar(stmt)
 
     if team:
-        user_id = get_jwt_identity()
-        user = User.query.get(user_id)
-
-        # Check if the user is either the creator of the team thread or an admin
-        if user.is_admin:
-            team.team_name = body_data.get('team_name') or team.team_name
-            team.trophies_won = body_data.get('trophies_won') or team.trophies_won
-            db.session.commit()
-            return team_schema.dump(team)
-        else:
-            return { 'error': 'Sorry! Only the admin can edit the team thread!'}, 403
+        team.team_name = body_data.get('team_name') or team.team_name
+        team.trophies_won = body_data.get('trophies_won') or team.trophies_won
+        db.session.commit()
+        return team_schema.dump(team)
     else:
         return { 'error': f'The team with id no.{id} does not exist and cannot be updated!'}, 404

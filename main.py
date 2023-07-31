@@ -7,6 +7,9 @@ from controllers.team_thread_controller import team_threads_bp
 from marshmallow.exceptions import ValidationError
 from controllers.user_controller import users_bp
 from controllers.team_controller import teams_bp
+from controllers.manager_controller import managers_bp
+from controllers.player_controller import players_bp
+from controllers.stadium_controller import stadiums_bp
 
 def create_app():
     app = Flask(__name__)
@@ -38,5 +41,8 @@ def create_app():
     app.register_blueprint(team_threads_bp)
     app.register_blueprint(users_bp)
     app.register_blueprint(teams_bp)
+    app.register_blueprint(managers_bp)
+    app.register_blueprint(stadiums_bp)
+    app.register_blueprint(players_bp)
 
     return app

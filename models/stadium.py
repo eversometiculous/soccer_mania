@@ -17,7 +17,7 @@ class StadiumSchema(ma.Schema):
 	team = fields.Nested('TeamSchema', only=['team_name'])
 
 	class Meta:
-		fields = ('id', 'stadium_name', 'location', 'year_built', 'team')
+		fields = ('id', 'stadium_name',  'team_id', 'location', 'year_built', 'team')
 		ordered = True
 
 stadium_schema = StadiumSchema()
