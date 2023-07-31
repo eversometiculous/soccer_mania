@@ -4,6 +4,7 @@ from flask_jwt_extended import jwt_required, get_jwt_identity
 from models.team_thread import Team_thread, team_thread_schema, team_threads_schema
 from models.comment import Comment, comment_schema, comments_schema
 from datetime import date
+from models.user import User, user_schema, users_schema
 
 comments_bp = Blueprint('comments', __name__, url_prefix='/<int:team_thread_id>/comments')
 
@@ -31,15 +32,20 @@ def create_comment(team_thread_id):
     else:
         return { 'error': f'Team_thread with id no.{id} does not exist and cannot be commented on!'}, 404
     
-@comments_bp.route('/<int:comment_id>', methods=['DELETE'])
+@comments_bp.route('<int:comment_id>', methods=['DELETE'])
 @jwt_required()
 def delete_comment(team_thread_id, comment_id):
+    user_id = get_jwt_identity()
+    user = User.query.get(user_id)
     stmt = db.select(Comment).filter_by(id=comment_id)
     comment = db.session.scalar(stmt)
     if comment:
-        db.session.delete(comment)
-        db.session.commit()
-        return { 'message': f'Comment {comment.message} deleted successfully!'}
+        if str(comment.user_id) == user_id or user.is_admin:
+            db.session.delete(comment)
+            db.session.commit()
+            return { 'message': f'Comment {comment.message} deleted successfully!'}
+        else:
+            return { 'error': 'Only the admin or the user who created the comment can delete it!! Sorry!!'}, 403
     else:
         return { 'error': f'Comment with id no.{comment_id} does not exist'}, 404
     
@@ -49,9 +55,15 @@ def update_comment(team_thread_id, comment_id):
     body_data = comment_schema.load(request.get_json(), partial=True)
     stmt = db.select(Comment).filter_by(id=comment_id)
     comment = db.session.scalar(stmt)
+    user_id = get_jwt_identity()
+    user = User.query.get(user_id)
+
     if comment:
-        comment.message = body_data.get('message') or comment.message
-        db.session.commit()
-        return comment_schema.dump(comment)
+        if str(comment.user_id) == user_id or user.is_admin:
+            comment.message = body_data.get('message') or comment.message
+            db.session.commit()
+            return comment_schema.dump(comment)
+        else:
+            return { 'error': 'Only the admin or the user who created the comment can update or edit it!! Sorry!!'}, 403
     else:
         return { 'error': f'Comment with id no.{comment_id} does not exist and cannot be editted'}, 404

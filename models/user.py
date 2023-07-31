@@ -20,7 +20,6 @@ class User(db.Model):
     team = db.relationship('Team', back_populates='users')
     comments = db.relationship('Comment', back_populates='user', cascade='all, delete-orphan')
 
-
 class UserSchema(ma.Schema):
 
     team_threads = fields.List(fields.Nested('Team_threadSchema', only=['title', 'date']))

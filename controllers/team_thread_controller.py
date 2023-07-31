@@ -13,16 +13,16 @@ team_threads_bp = Blueprint('team_threads', __name__, url_prefix='/team_threads'
 team_threads_bp.register_blueprint(comments_bp)
 
 def authorise_as_admin(fn):
-    @functools.wraps(fn)            # retains the identity of the function below the decorator that was called
+    @functools.wraps(fn)
     def wrapper(*args, **kwargs):
         user_id = get_jwt_identity()
         stmt = db.select(User).filter_by(id=user_id)
         user = db.session.scalar(stmt)
         if user.is_admin:
-            return fn(*args, **kwargs)          # execute this function normally, code after this function continues as per normal
+            return fn(*args, **kwargs)
         else:
-            return { 'error': 'You are not authorised to perform deletions! Sorry!'}, 403
-    
+            return { 'error': 'Sorry! Only the admin can perform this action!'}, 403
+
     return wrapper
 
 @team_threads_bp.route('/')
@@ -67,39 +67,49 @@ def create_team_thread():
     # Respond to the client
     return team_thread_schema.dump(team_thread), 201
 
-@team_threads_bp.route('/<int:id>', methods=['DELETE']) # only admins can delete for now
+@team_threads_bp.route('/<int:id>', methods=['DELETE'])
 @jwt_required()
-@authorise_as_admin         # will execute delete_one_team_thread function if decorator function is as per normal
 def delete_one_team_thread(id):
-    # is_admin = authorise_as_admin()
-    # if not is_admin:
-    #     return { 'error': 'Sorry, you are not authorised to delete this team thread!'}, 403
+    user_id = get_jwt_identity()
+    user = User.query.get(user_id)
     stmt = db.select(Team_thread).filter_by(id=id)
     team_thread = db.session.scalar(stmt)
+
     if team_thread:
-        db.session.delete(team_thread)
-        db.session.commit()
-        return { 'message': f'Team thread {team_thread.title} deleted succesffuly!'}
+        # Check if the user is an admin or the creator of the team thread
+        if str(team_thread.user_id) == user_id or user.is_admin:
+            db.session.delete(team_thread)
+            db.session.commit()
+            return { 'message': f'Team thread {team_thread.title} deleted successfully!'}
+        else:
+            return { 'error': 'Only the admin or the user who created the team thread can delete it!! Sorry!!'}, 403
     else:
-        return { 'error': f'Team thread with id no.{id} does not exist and can not be deleted!'}, 404
+        return { 'error': f'Team thread with id no.{id} does not exist and cannot be deleted!!!'}, 404
+
     
-@team_threads_bp.route('/<int:id>', methods=['PUT', 'PATCH']) # only users who created the card can edit the card
+@team_threads_bp.route('/<int:id>', methods=['PUT', 'PATCH'])
 @jwt_required()
 def update_one_team_thread(id):
     body_data = team_thread_schema.load(request.get_json(), partial=True)
     stmt = db.select(Team_thread).filter_by(id=id)
     team_thread = db.session.scalar(stmt)
+
     if team_thread:
-        if str(team_thread.user_id) != get_jwt_identity():
-            return { 'error': 'Sorry! Only the person who created the team thread can edit the team thread!'}, 403
-    if team_thread:
-        team_thread.title = body_data.get('title') or team_thread.title
-        team_thread.description = body_data.get('description') or team_thread.description
-        team_thread.date_updated = date.today()
-        db.session.commit()
-        return team_thread_schema.dump(team_thread)
+        user_id = get_jwt_identity()
+        user = User.query.get(user_id)
+
+        # Check if the user is either the creator of the team thread or an admin
+        if str(team_thread.user_id) == get_jwt_identity() or user.is_admin:
+            team_thread.title = body_data.get('title') or team_thread.title
+            team_thread.description = body_data.get('description') or team_thread.description
+            team_thread.date_updated = date.today()
+            db.session.commit()
+            return team_thread_schema.dump(team_thread)
+        else:
+            return { 'error': 'Sorry! Only the person who created the team thread or an admin can edit the team thread!'}, 403
     else:
         return { 'error': f'The team thread with id no.{id} does not exist and cannot be updated!'}, 404
+
     
 # def authorise_as_admin():
 #     user_id = get_jwt_identity()
