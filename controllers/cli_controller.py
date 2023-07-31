@@ -6,6 +6,9 @@ from datetime import date
 from models.team import Team
 from models.comment import Comment
 from sqlalchemy import text
+from models.stadium import Stadium
+from models.manager import Manager
+from models.player import Player
 
 db_commands = Blueprint('db', __name__)
 
@@ -103,8 +106,73 @@ def seed_db():
             team=teams[0]
         ),
     ]
-
+    
     db.session.add_all(team_threads)
+
+    stadiums = [
+        Stadium(
+            stadium_name='Emirates Stadium',
+            location='Ashburton Grove',
+            year_built='2006',
+            team=teams[0]
+        ),
+        Stadium(
+            stadium_name='Old Trafford',
+            location='Trafford',
+            year_built='1910',
+            team=teams[1]
+        )
+    ]
+
+    db.session.add_all(stadiums)
+
+    managers = [
+        Manager(
+            name='Mikel Arteta',
+            date_of_birth=date(1982, 3, 26),
+            teams_managed_previously='None',
+            trophies_won='FA Cup Trophy - 2019-20 (1), FA Community Shield - 2020 (1)',
+            team=teams[0]
+        ),
+        Manager(
+            name='Erik Ten Hag',
+            date_of_birth=date(1970, 2, 2),
+            teams_managed_previously='Go Ahead Eagles - 2012-13, Bayern Munich II - 2013-15, Utrecht - 2015-17, Ajax - 2017-22',
+            trophies_won='Regionalliga Bayern - 2013-14 (1), Eredivisie - 2018-19, 2020-21, 2021-22 (3), KNVB Cup - 2018-19, 2020-21 (2), Johan Cryuff Shield - 2019 (1), English League Cup - 2022-23 (1)',
+            team=teams[1]
+        )
+    ]
+
+    db.session.add_all(managers)
+
+    players = [
+        Player(
+            name='Bukayo Saka',
+            date_of_birth=date(2001, 9, 5),
+            position='Right Forward, midfielder, fullback',
+            contract_period='2023-2027',
+            current_salary='£300,000-per-week',
+            team=teams[0]
+        ),
+        Player(
+            name='Aaron Ramsdale',
+            date_of_birth=date(1998, 5, 14),
+            position='Goalkeeper',
+            contract_period='2022-2026',
+            current_salary='£120,000-per-week',
+            team=teams[0]
+        ),
+        Player(
+            name='Marcus Rashford',
+            date_of_birth=date(1997, 10, 31),
+            position='Forward',
+            contract_period='2023-2028',
+            current_salary='£300,000-per-week',
+            team=teams[1]
+        )
+    ]
+
+    db.session.add_all(players)
 
     comments = [
         Comment(
