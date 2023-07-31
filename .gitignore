@@ -1,3 +1,10 @@
+# helps to tell github to not synchronise this branches
+
+# directory that stores compiled bytecodes
 __pycache__/
+
+# the virtual environment that the user creates. Stores the Python packages separately from the system-wide Python packages.
 .venv/
+
+# file that is used to set environment variables in the application. Stores sensitive information and therefore cannot be synced.
 .env
