@@ -32,7 +32,7 @@ class Team_threadSchema(ma.Schema):
     ))
 
     class Meta:
-        fields = ('id', 'title', 'description', 'date', 'user', 'team', 'comments')
+        fields = ('id', 'title', 'description', 'date', 'team_id', 'user', 'team', 'comments')
         ordered = True
 
 team_thread_schema = Team_threadSchema()
