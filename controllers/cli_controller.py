@@ -20,14 +20,16 @@ def create_db():
 
 @db_commands.cli.command('drop')
 def drop_db():
-    # Drop the tables with foreign key constraints first
-    db.session.execute(text("DROP TABLE IF EXISTS team_threads CASCADE"))
-    db.session.execute(text("DROP TABLE IF EXISTS comments CASCADE"))
-    db.session.execute(text("DROP TABLE IF EXISTS teams CASCADE"))
-    db.session.execute(text("DROP TABLE IF EXISTS users CASCADE"))
-    db.session.commit()
+    db.drop_all()
+    print("Tables dropped")
+    # # Drop the tables with foreign key constraints first
+    # db.session.execute(text("DROP TABLE IF EXISTS team_threads CASCADE"))
+    # db.session.execute(text("DROP TABLE IF EXISTS comments CASCADE"))
+    # db.session.execute(text("DROP TABLE IF EXISTS teams CASCADE"))
+    # db.session.execute(text("DROP TABLE IF EXISTS users CASCADE"))
+    # db.session.commit()
 
-    print("Tables Dropped")
+    # print("Tables Dropped")
 
 @db_commands.cli.command('seed')
 def seed_db():

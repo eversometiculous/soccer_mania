@@ -51,7 +51,7 @@ def create_team_thread():
     if not user:
         return { 'error': 'User not found'}, 404
     if not user.team:
-        return { 'error': 'User team not found'}), 404
+        return { 'error': 'User team not found'}, 404
 
     team_thread = Team_thread(
         title=body_data.get('title'),
@@ -105,10 +105,3 @@ def update_one_team_thread(id):
         return team_thread_schema.dump(team_thread)
     else:
         return { 'error': f'The team thread with id no.{id} does not exist and cannot be updated!'}, 404
-
-    
-# def authorise_as_admin():
-#     user_id = get_jwt_identity()
-#     stmt = db.select(User).filter_by(id=user_id)
-#     user = db.session.scalar(stmt)
-#     return user.is_admin
