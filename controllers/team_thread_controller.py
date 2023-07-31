@@ -49,9 +49,9 @@ def create_team_thread():
     user_id = get_jwt_identity()
     user = User.query.get(user_id)
     if not user:
-        return jsonify(message="User not found"), 404
+        return { 'error': 'User not found'}, 404
     if not user.team:
-        return jsonify(message="User's team not found"), 404
+        return { 'error': 'User team not found'}), 404
 
     team_thread = Team_thread(
         title=body_data.get('title'),
@@ -95,18 +95,14 @@ def update_one_team_thread(id):
     team_thread = db.session.scalar(stmt)
 
     if team_thread:
-        user_id = get_jwt_identity()
-        user = User.query.get(user_id)
-
-        # Check if the user is either the creator of the team thread or an admin
-        if str(team_thread.user_id) == get_jwt_identity() or user.is_admin:
-            team_thread.title = body_data.get('title') or team_thread.title
-            team_thread.description = body_data.get('description') or team_thread.description
-            team_thread.date_updated = date.today()
-            db.session.commit()
-            return team_thread_schema.dump(team_thread)
-        else:
-            return { 'error': 'Sorry! Only the person who created the team thread or an admin can edit the team thread!'}, 403
+        if str(team_thread.user_id) != get_jwt_identity():
+            return { 'error': 'Sorry! Only the person who created the team thread can edit the team thread!'}, 403
+    if team_thread:
+        team_thread.title = body_data.get('title') or team_thread.title
+        team_thread.description = body_data.get('description') or team_thread.description
+        team_thread.date_updated = date.today()
+        db.session.commit()
+        return team_thread_schema.dump(team_thread)
     else:
         return { 'error': f'The team thread with id no.{id} does not exist and cannot be updated!'}, 404
 
