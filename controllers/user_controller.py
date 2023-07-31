@@ -24,8 +24,3 @@ def get_one_user(id):
         return user_schema.dump(user)
     else:
         return { 'error': f'There is no existing user with id no.{id}!'}, 404
-
-
-
-# @users_bp.route('/<int:id>', methods=['DELETE'])
-# def delete_user():

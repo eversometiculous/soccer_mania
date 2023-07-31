@@ -8,6 +8,7 @@ class Team(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     team_name = db.Column(db.String, unique=True, nullable=False)
     trophies_won = db.Column(db.Text)
+    
 
     team_threads = db.relationship('Team_thread', back_populates='team', cascade='all, delete')
     users = db.relationship('User', back_populates='team', cascade='all, delete-orphan')
