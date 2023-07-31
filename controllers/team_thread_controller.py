@@ -51,7 +51,7 @@ def create_team_thread():
     if not user:
         return { 'error': 'User not found'}, 404
     if not user.team:
-        return { 'error': 'User team not found'}), 404
+        return { 'error': 'User team not found'}, 404
 
     team_thread = Team_thread(
         title=body_data.get('title'),
