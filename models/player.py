@@ -2,6 +2,12 @@ from init import db, ma
 from marshmallow import fields
 from marshmallow.validate import Length, Regexp, And
 
+
+# The Player model represents the 'players' table in the database.
+# It has attributes such as id, name, date_of_birth, position, contract_period, and current_salary.
+# There is a foreign key relationship with the Team model through the team_id column, 
+# representing the team that the player is associated with.
+# The team attribute represents the relationship with the Team model.
 class Player(db.Model):
 	__tablename__ = 'players'
 
@@ -16,6 +22,11 @@ class Player(db.Model):
 
 	team = db.relationship('Team', back_populates='players') 
 
+# The PlayerSchema is a Marshmallow schema for serializing and deserializing the Player model.
+# The schema defines the fields that will be included in the serialized JSON response and parsed during deserialization.
+# Nested fields are used to handle the relationship with the team.
+# The position, contract_period, and date_of_birth fields have validation rules using 
+# the Length and Regexp classes from the marshmallow.validate module to ensure they meet specific criteria.
 class PlayerSchema(ma.Schema):
 	team = fields.Nested('TeamSchema', only=['team_name'])
 
@@ -30,5 +41,7 @@ class PlayerSchema(ma.Schema):
 		fields = ('id', 'name', 'date_of_birth', 'position', 'team_id', 'contract_period', 'current_salary', 'team')
 		ordered = True
 
+# player_schema is an instance of PlayerSchema, used to serialize or deserialize a single player object (one player).
 player_schema = PlayerSchema()
+# players_schema is an instance of PlayerSchema, used to serialize or deserialize a list of player objects (multiple players).
 players_schema = PlayerSchema(many=True)

@@ -10,30 +10,34 @@ from models.stadium import Stadium
 from models.manager import Manager
 from models.player import Player
 
+# Creates commands tied to the blueprint instance. __name__ specifies the current module, which is cli_controller, where the blueprint
+# is defined.
 db_commands = Blueprint('db', __name__)
 
-
+# Decorator created to define CLI commands, in this case, create. The decorator helps to register the create_db() function. 
+# When running Flask CLI and using command flask db create, it executes the create_db() function.
 @db_commands.cli.command('create')
 def create_db():
+    # It will create all the database tables defined in the application. 
     db.create_all()
+    # Prints Tables Created after creating all the database tables to notify user process is done,
     print("Tables Created")
 
+# Decorator created to define CLI commands, in this case, drop. The decorator helps to register the drop_db() function. 
+# When running Flask CLI and using command flask db drop, it executes the drop_db() function.
 @db_commands.cli.command('drop')
 def drop_db():
+    # It will drop/delete all the database tables and their corresponding data defined in the application. 
     db.drop_all()
+    # After completing the process, tables dropped will be printed to notify user that theprocess is done.
     print("Tables dropped")
-    # # Drop the tables with foreign key constraints first
-    # db.session.execute(text("DROP TABLE IF EXISTS team_threads CASCADE"))
-    # db.session.execute(text("DROP TABLE IF EXISTS comments CASCADE"))
-    # db.session.execute(text("DROP TABLE IF EXISTS teams CASCADE"))
-    # db.session.execute(text("DROP TABLE IF EXISTS users CASCADE"))
-    # db.session.commit()
 
-    # print("Tables Dropped")
-
+# Decorator created to define CLI commands, in this case, seed. The decorator helps to register the seed_db() function. 
+# When running Flask CLI and using command flask db seed, it executes the seed_db() function.
 @db_commands.cli.command('seed')
 def seed_db():
-
+    # Creates a new list in the database called teams that contains instances of Team models. Each element of the list is an attribute
+    # of the Team model. The attributes are team_name and trophies_won.
     teams = [
         Team(
             team_name='Arsenal',
@@ -45,8 +49,11 @@ def seed_db():
         ),
     ]
 
+    # Adds all Team models and its elements and data to the database session. Added to the session to be saved(committed) later.
     db.session.add_all(teams)
 
+    # Creates a new list in the database called users that contains instances of User models. Each element of the list is an attribute
+    # of the User model. The attributes are name, email, username, password, is_admin, favourite_player and team.
     users = [
         User(
             name='Administrator',
@@ -74,9 +81,11 @@ def seed_db():
             team=teams[1]
         )
     ]
-
+    # Adds all User models and its element and data to the database session. Added to the session to be saved(committed) later.
     db.session.add_all(users)
 
+    # Creates a new list in the database called team_threads that contains instances of Team_thread models. Each element of the list is an attribute
+    # of the Team_thread model. The attributes are title, description, date, user and team.
     team_threads = [
         Team_thread(
             title='Arsenal Men transfer news',
@@ -108,9 +117,11 @@ def seed_db():
             team=teams[0]
         ),
     ]
-    
+    # Adds all Team_thread models and its elements and data to the database session. Added to the session to be saved(committed) later.
     db.session.add_all(team_threads)
 
+    # Creates a new list in the database called stadiums that contains instances of Stadium models. Each element of the list is an attribute
+    # of the Stadium model. The attributes are stadium_name, location. year_built and team.
     stadiums = [
         Stadium(
             stadium_name='Emirates Stadium',
@@ -126,8 +137,11 @@ def seed_db():
         )
     ]
 
+    # Adds all Stadium models and its elements and data to the database session. Added to the session to be saved(committed) later.
     db.session.add_all(stadiums)
 
+    # Creates a new list in the database called managers that contains instances of Manager models. Each element of the list is an attribute
+    # of the Manager model. The attributes are name, date_of_birth, teams_managed_previously, trophies_won and team.
     managers = [
         Manager(
             name='Mikel Arteta',
@@ -145,8 +159,11 @@ def seed_db():
         )
     ]
 
+    # Adds all Manager models and its elements and data to the database session. Added to the session to be saved(committed) later.
     db.session.add_all(managers)
 
+    # Creates a new list in the database called players that contains instances of Player models. Each element of the list is an attribute
+    # of the Player model. The attributes are name, date_of_birth, position, contract_period, current_salary and team.
     players = [
         Player(
             name='Bukayo Saka',
@@ -174,8 +191,11 @@ def seed_db():
         )
     ]
 
+    # Adds all Player models and its elements and data to the database session. Added to the session to be saved(committed) later.
     db.session.add_all(players)
 
+    # Creates a new list in the database called comments that contains instances of Comment models. Each element of the list is an attribute
+    # of the Comment model. The attributes are message, team_thread, user and date.
     comments = [
         Comment(
             message="First post",
@@ -203,8 +223,11 @@ def seed_db():
         )
     ]
 
+    # Adds all Comment models and its elements and data to the database session. Added to the session to be saved(committed) later.
     db.session.add_all(comments)
 
+    # Commits all additions to the session to be saved into the database.
     db.session.commit()
 
+    # Once the process is done, "Tables Seeded" will be printed to notify the user that the process is done.
     print("Tables Seeded")
