@@ -18,8 +18,8 @@ class Comment(db.Model):
     team_thread_id = db.Column(db.Integer, db.ForeignKey('team_threads.id'), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
 
-    user = db.relationship('User', back_populates='comments', cascade='all, delete')
-    team_thread = db.relationship('Team_thread', back_populates='comments', cascade='all, delete')
+    user = db.relationship('User', back_populates='comments', foreign_keys=[user_id], cascade='all, delete')
+    team_thread = db.relationship('Team_thread', back_populates='comments', foreign_keys=[team_thread_id], cascade='all, delete')
 
 # The CommentSchema is a Marshmallow schema for serializing and deserializing the Comment model.
 # The schema defines the fields that will be included in the serialized JSON response and parsed during deserialization.
