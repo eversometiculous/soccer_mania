@@ -434,3 +434,275 @@ If the user_to_update variable does not exist, an error message is given saying 
 
 ## R7. Detail any third party services that your app will use
 
+As seen from requirements.txt, here are the packages.
+
+### bcrypt
+
+This is v4.0.1. Bcrypt serves as a modern password hashing service for softwares and servers. While it is relatively safe as it encrypts data such as passwords using an utf-8 encoding system. UTF-8 is an encoding system for Unicode. It can translate any Unicode character to a matching unique binary string, and can also translate the binary string back to a Unicode character. This is the meaning of “UTF”, or “Unicode Transformation Format.”
+
+It is relatively secure as UTF-8 converts characters from one to four bytes. It also helps to save up space and memory, as common ASCII characters requies less space(one byte). This results in spatial efficiency. It is also backward-compatible with ASCII(Juviler n.d.).
+
+There are more secure options such as scrypt or argon2id.
+
+### greenlet
+
+This is v2.0.2. Greenlet is a lightweight library that can occur concurrently in real-time. It allows for the writing of efficient and cooperative multitasking code. It allows the user to create coroutines or greenlets that are small and lightweight. Greenlets can run cooperatively. They do not rely on the operating system unlike threads, making them faster and more memory-efficient.
+
+Greenlets can be thought of as mini-threads. Greenlets run cooperatively, meaning that they need to give an ouput or other greenlets wont run. It is also limited to one operating system thread. It is a lower-level concurrency library compared to asyncio, which is a higher-level concurrency library.
+
+### itsdangerous
+
+This is v2.1.2. Itsdangerous, helps to safely pass data to unsafe environments and back. It provides various utilites for data serialization, salting and signing to securely transmit and store data. Commonly used in creating and verifying tokens.
+
+Itsdangerous can serialize python types into a compact URL-safe string representation that helps to securely transmit and store data. The module also allows the user to add a crytographic signature to the data, making it more secure and authentic. It can also create signatures with a time limit that causes signatures to expire once the time limit is reached. Useful for creating access tokens with a time limit. Salting is another feature itsdangerous does. It adds another layer of security by adding a layer before the serialized data. 
+
+### Jinja2
+
+This is v3.1.2. Jinja2 is a popular templating engine for Python. It provides a powerful way to generate dynamic content by combining templates with data. Jinja2 templates are text files that contain placeholders, expressions and control structure, which are then later replaced by actual values.
+
+Jinja2 uses a simple template language with placeholders.
+Jinja2 supports template inheritance, which allows you to create a base template and have child templates inherit the base template features. Jinja2 also allows filters and macros.
+
+### MarkUpSafe
+
+This is v2.1.3. MarkupSafe is a Python module that provides functions and classes for escaping and manipulating strings. It is often used in conjunction with templating engines like Jinja2 to help prevent Cross-Site Scripting (XSS) attacks by escaping potentially dangerous characters in user-generated or untrusted content
+
+When working with strings that have user-generated content, concatenating them directly can lead to security issues. MarkupSafe provides the .join() method, which safely joins a list of strings as a new Markup object. T It also includes error classes to handle situations where markup is not valid or improperly used. This helps in providing informative error messages during development.
+
+### packaging
+
+This is v23.1. While it is not a Python module per se, it is part of Python's packaging ecosystem that helps to create, distribute and install Python packages.
+
+### PyJWT
+
+This is v2.7.0. As it says, it is a Python library that provides support for encoding and decoding JSON Web Tokens or JWT. A JWT is a secure way to represent information and share it between two parties. JWT is often used for authentication and authorisation in web applications. It supports various algorithms for signing and verifying tokens such as HMAC and RSA algorithms.
+
+### python-dotenv
+
+This module is v1.0.0. It is a Python module that allows the user to load environment variables specified in the .env file into a Python application. Sometimes when working on an application, the application requires access to databases, which in turn requires sensitive data to access them. This module helps to solve that by loading the environment variables from the .env file into the Python application itself. When used in conjunction with .gitignore where your .env file is listed, this will help to prevent your sensitive data from being leaked online.
+
+### typing_extensions
+
+This python module is v4.6.3. It extends the functionality of the typing module, giving extra hints to what to input into your code based on what your previous code is. It also helps to catch potential type-related errors.  The typing extension module is even more useful as it helps to bridge the gap between older and newer versions of Python by giving out hints as to whether a function or command or some lines of code is derelict,
+
+### Werkzeug
+
+This python module is v2.3.6. It is a part of the Flask web framework  and provides tools and utilities for web development. Werkzeug provides a simple and consistent way to work with HTTP requests and responses. The Request and Response objects encapsulate the data associated with an HTTP request and response, making it easy to read and manipulate headers, cookies, query parameters, form data, and other aspects of an HTTP message.
+
+It also has URL routing. It allows developers to define URL patterns and associate them with corresponding view functions.
+
+### Flask
+
+This is currently at v2.3.2. Flask is a web framework for Python that is popular and lightweight.  It helps to simplify the process of developing web applications or APIs. It can handle HTTP requests, manage routing and render templates.
+
+Flask, in conjunction with Werkzeug, allows developers to define routes for different URLs and associate them with corresponding view functions. It also provides easy access to the data of incoming HTTP requests. Developers can easily access query parameters, form data, headers, and cookies associated with the request. Flask also makes it simple to create and return HTTP responses. Developers can return HTML pages, JSON data, or other types of responses from view functions.
+
+### Flask-Bcrypt
+
+This is currently at v1.0.1. This is an extension that allows the user to integrate the bcrypt functions into the application by initializing the Bcrypt to run in the application. This is done by writing some specific code.
+
+### Flask-JWT-Extended
+
+This is currently at v4.5.2. This is an extension that allows the user to integrate the JWT-Extended functions into the application by initializing the JWT-Extended to run in the application. This is done by writing some specific code.
+
+### flask-marshmallow
+
+This is currently at v0.15.0. This is an extension that allows the user to integrate the marshmallow functions into the application by initializing the marshmallow to run in the application. This is done by writing some specific code.
+
+### flask-SQLAlchemy
+
+This is currently at v3.0.3. This is an extension that allows the user to integrate the SQLAlchemy functions into the application by initializing the SQLAlchemy to run in the application. This is done by writing some specific code.
+
+### marshmallow
+
+This is currently at v3.19.0. Marshmallow is a popular Python library that is mainly used for serialization and deseriallization purposes. It converts complex data types into native Python types and vice versa.
+
+Serialization is the act of converting complex data types into native Python types that PostgreSQL can understand using SQLAlchemy. For example, when a user sends a JSON input into our application, our application will first use Marshmallow to serialize the JSON data into Python code that SQLAlchemy can use to look up and manipulate data in the PostgreSQL database. Deserialization does the exact same thing but in reverse.
+
+### marshmallow-sqlalchemy
+
+This is currently at v0.29.0. This extension helps to integrate the bridge between Marshmallow and SQLAlchemy. When working with SQLAlchemy, database models exist as Python classes. However, when building applications, you have to convert these models into JSON output.
+
+Marshmallow will help to create schemas from your Python classes. They are written in JSON format so they can be used as output for your web application.
+
+### psycopg2-binary
+
+This is currently at v2.9.6. This is an adapter that helps to provide an Python interface to PostgreSQL databases. It acts like a bridge between Python applications and the PostgreSQL database.
+
+With the adapter, a user can conduct queries into PostgreSQL databases using their python code from their python application instead of using the native PostgreSQL language. It can also convert PostgreSQL data types to Python and vice versa.
+
+### SQLAlchemy
+
+This is currently at v2.0.16. This is an open-source Python ORM system that acts like a middleman between PostgreSQL and the Python application. By writing Python classes and objects, the user can use SQLAlchemy to access and manipulate data in the PostgreSQL database without using SQL language.
+
+SQLAlchemy provides a high-level API for building database queries, including SELECT, INSERT, UPDATE, DELETE, and more. The user can filter, join, and aggregate data using intuitive Python language. SQLAlchemy supports defining and managing relationships between database tables, such as one-to-one, one-to-many, and many-to-many relationships. This makes it easier to work with related data in the application.
+
+The difference between psycopg2-binary and SQLAlchemy is that psycopg2-binary is a PostgresQL-specific adapter whilst SQLAlchemy is more of a higher-level ORM library. They do work together, though. Psycopg2-binary provides the direct connection to PostgreSQL and SQLAlchemy offers a higher-level interface to work with PostgreSQL and other databases(ChatGPT, 2023).
+
+
+#### Reference List
+
+1) Juviler, J n.d., What is UTF-8 Encoding? A Guide for Non-Programmers, blog.hubspot.com., accessed 30 July 2023, <https://blog.hubspot.com/website/what-is-utf-8#:~:text=UTF%2D8%20is%20an%20encoding,or%20%E2%80%9CUnicode%20Transformation%20Format.%E2%80%9D>
+
+2) ChatGPT n.d., chat.openai.com, accessed 31 July 2023, <https://chat.openai.com/c/f67d87b7-2117-41f7-a560-b997cef90984>
+
+## R8. Describe your projects models in terms of the relationships they have with each other
+
+This answer will talk about the database relations using SQLAlchemy and the Flask code itself.
+
+### Model user.py(db.Model)
+
+In the User class, I have 1 foreign key and 3 relationships that I will go up in more detail.
+
+#### Foreign Key
+
+"team_id" is a foreign key for the "users" table. It essentially establishes a many-to-one relationship between the one Team model and many User models. Each user will belong to one team, and this is done by referencing the id of the "teams" table.
+
+####  Relationships
+
+"team_threads" will be represented by a one-to-many relationship between the one User model and many Team_thread models. A user can create as many "team_threads" as he wants but in reverse, a "team_thread" can only belong to one and only one user. This is defined with db.Relationship. As for back_populates='user', the Team_thread model's attribute called 'user' will represent the user relationship back to the team_threads he created. In essence, it means that the team_threads will show the user who created them. The cascade='all, delete-orphan' parameter will essentially mean that any changes made to the User model will cascade to its relevant team_threads. If a user is deleted, all team_threads created by the user are deleted as well. The deleted records will be removed from the database immediately once disassociated.
+
+"team" will be represented by a one-to-many relationship between the one Team model and many User models. A team can have as many users as it can represent but a user can only be tied on one team. This is defined by db.Relationship. As for back_populates='users', the Team model's attribute called 'user' will represent the user relationship back to the user's favourite team.
+
+"comment" will be represented by a one-to-many relationsip between the one User model and many Comment models. A user can have as many comments as he made, by each comment represents one unique user. The back_populates='user' parameter is an attribute of the Comment model called 'user' and will represent the user relationship back to the comments he created. In essence, the comments will show the user who made them. The cascade='all, delete-orphan' parameter will essentially mean that any changes made to the User model will cascade to its relevant comments. If a user is deleted, all comments created by the user are deleted as well. The deleted records will be removed from the database immediately once disassociated.
+
+### Model team.py(db.Model)
+
+In the Team class, we have 5 relationships that will be discussed.
+
+#### Relationships
+
+"team_threads" will be represented by a one-to-many relationship between the one Team model and many Team_thread models. A team can have as many "team_threads" as it can but in reverse, a "team_thread" can only belong to one and only one team. This is defined with db.Relationship. As for back_populates='team', the Team_thread model's attribute called 'team' will represent the team relationship back to the team_threads he created. In essence, it means that the team_threads will show the team who they belong to. The cascade='all, delete' parameter will essentially mean that any changes made to the team model will cascade to its relevant team_threads. If a team is deleted, all team_threads belonging to the team are deleted as well. Since there is no delete-orphan, the records will still be orphaned in the database, but will be removed once the session is committed.
+
+"managers" will be represented by a zero to one-to-a zero to one relationship between the one Team model and one Manager model. A team can be managed by zero to one manager and in reverse, a manager can only belong to zero to one team. This is defined with db.Relationship. As for back_populates='team', the Manager model's attribute called 'team' will represent the team relationship back to the manager who manages it. In essence, this means that the manager will show the team that he belongs to. The cascade='all, delete' parameter will essentially mean that any changes made to the team model will cascade to its relevant manager. If a team is deleted, the manager belonging to the team is deleted as well. Since there is no delete-orphan, the records will still be orphaned in the database, but will be removed once the session is committed.
+
+"stadiums" will be represented by a zero to many-to-a zero to many relationship between the one to many Team models and one to many Manager models. A stadium can be be the base for zero-to-many teams and in reverse, a team can have zero to many stadiums. This is defined with db.Relationship. As for back_populates='team', the Stadium model's attribute called 'team' will represent the team relationship back to the stadium which acts as the base for the team. In essence, this means that the stadium will show the team that it is hosting. The cascade='all, delete' parameter will essentially mean that any changes made to the team model will cascade to its relevant stadium. If a team is deleted, the stadium belonging to the team is deleted as well. Since there is no delete-orphan, the records will still be orphaned in the database, but will be removed once the session is committed.
+
+"players" will be represented by a zero to one-to-a zero to many relationship between the zero to one Team model and zero to many Player models. A team can have zero to many players and in reverse, a player can only belong to zero to one team. This is defined with db.Relationship. As for back_populates='team', the Player model's attribute called 'team' will represent the team relationship back to the player who plays for the team. In essence, this means that the player will show the team that he plays for. The cascade='all, delete' parameter will essentially mean that any changes made to the team model will cascade to its relevant players. If a team is deleted, the players belonging to the team is deleted as well. Since there is no delete-orphan, the records will still be orphaned in the database, but will be removed once the session is committed.
+
+"users" will be represented by a zero to one-to-a zero to one relationship between the one Team model and one User model. A team can have zero to one users and in reverse, a user can only belong to zero to one teams. This is defined with db.Relationship. As for back_populates='team', the User model's attribute called 'team' will represent the team relationship back to the user who it belongs to. In essence, this means that the user will show the team that he belongs to. The cascade='all, delete-orphan' parameter will essentially mean that any changes made to the team model will cascade to its relevant user. If a team is deleted, the user belonging to the team is deleted as well. The deleted records will be removed from the database immediately once disassociated.
+
+### Model team_thread.py(db.Model)
+
+In the Team_thread class, we have two foreign keys and 3 relationships that will be talked in detail.
+
+#### Foreign Keys
+
+"team_id" is a foreign key for the "team_threads" table. It essentially establishes a many-to-one relationship between the one Team model and many Team_thread models. Each team_thread will belong to one team, and this is done by referencing the id of the "teams" table.
+
+"user_id" is a foreign key for the "team_threads" table. It essentially establishes a many-to-one relationship between the one User model and many team_threads models. Each team_thread will belong to one user, and this is done by referencing the id of the "users" table.
+
+#### Relationships
+
+"user" will be represented by a one and only one-to-zero to many relationship between the one User model and zero to many Team_thread models. A user can have zero to many team_threads and in reverse, a team_thread can only belong to one and only one user. This is defined with db.Relationship. As for back_populates='team_threads', the User model's attribute called 'team_thread' will represent the team_thread relationship back to the user who created it. In essence, this means that the user id will be shown on the team_thread that created it. The parameter foreign_keys=[user_id] is used when there is more than one foreign key in the relationship. In this case, user_id is the foreign key in the Team_thread model that refers to the id column of the User model. 
+
+"team" will be represented by a one and only one-to-zero to many relationship between the one Team model and zero to many Team_thread models. A team can have zero to many team_threads and in reverse, a team_thread can only belong to one and only one team. This is defined with db.Relationship. As for back_populates='team_threads', the Team model's attribute called 'team_thread' will represent the team_thread relationship back to the team it belongs to. In essence, this means that the team id will be shown on the team_thread that belongs to it. The parameter foreign_keys=[team_id] is used when there is more than one foreign key in the relationship. In this case, team_id is the foreign key in the Team_thread model that refers to the id column of the Team model. 
+
+"comments" will be represented by a one and only one-to-zero to many relationship between the one Team_thread model and zero to many Comment models. A team_thread can have zero to many comments but in reverse, a comment can only belong to one and only one team_thread. This is defined with db.Relationship. As for back_populates='team_thread', the Comment model's attribute called 'team_thread' will represent the team_thread relationship back to the comment. In essence, this means that the comment will show the team_thread that it belongs to. The cascade='all, delete-orphan' parameter will essentially mean that any changes made to the team_thread model will cascade to its relevant comments. If a team_thread is deleted, the comments belonging to it are deleted as well. The deleted records will be removed from the database immediately once disassociated.
+
+### Model stadium.py(db.Model)
+
+The Stadium class has one foreign key and one relationship which will be discussed in detail.
+
+#### Foreign keys
+
+"team_id" is a foreign key for the "stadiums" table. It essentially establishes a zero to one-to-zero to many relationship between the zero to one Team model and zero to many Stadium models. Each stadium will belong to zero to one team, and this is done by referencing the id of the "teams" table.
+
+#### Relationships
+
+"team" will be represented by a zero to one-to-zero to many relationship between the zero to one Team model and zero to many Stadium models. A stadium can belong to zero to one team but in reverse, a team can play in zero to many stadiums. This is defined with db.Relationship. As for back_populates='stadium', the Team model's attribute called 'stadium' will represent the stadium relationship back to the team. In essence, this means that the team will show the stadium that plays in it.
+
+### Model player.py(db.Model)
+
+The Player class has one foreign key and one relationship which will be discussed in detail.
+
+#### Foreign keys
+
+"team_id" is a foreign key for the "stadiums" table. It essentially establishes a zero to one-to-zero to many relationship between the zero to one Team model and zero to many Player models. Each player will belong to zero to one team, and this is done by referencing the id of the "teams" table.
+
+#### Relationships
+
+"team" will be represented by a zero to one-to-zero to many relationship between the zero to one Team model and zero to many Player models. A player can belong to zero to one team but in reverse, a team can have zero to many players. This is defined with db.Relationship. As for back_populates='players', the Team model's attribute called 'player' will represent the player relationship back to the team. In essence, this means that the team will show the player that plays in it.
+
+### Model manager.py(db.Model)
+
+The Manager class has one foreign key and one relationship which will be discussed in detail.
+
+#### Foreign keys
+
+"team_id" is a foreign key for the "managers" table. It essentially establishes a zero to one-to-zero to one relationship between the zero to one Team model and zero to one Stadium model. Each manager will belong to zero to one team, and this is done by referencing the id of the "teams" table.
+
+#### Relationships
+
+"team" will be represented by a zero to one-to-zero to one relationship between the zero to one Team model and zero to one Stadium model. A manager can belong to zero to one team but in reverse, a team can have zero to one manager. This is defined with db.Relationship. As for back_populates='manager', the Team model's attribute called 'manager' will represent the manager relationship back to the team. In essence, this means that the team will show the manager that manages it.
+
+### Model comment.py(db.Model)
+
+The Comment class has two foreign keys and two relationships which will be discussed in detail.
+
+#### Foreign keys
+
+"team_thread_id" is a foreign key for the "comments" table. It essentially establishes a one and only one-to-zero to many relationship between the one and only Team_thread model and zero to many Comment models. Each comment will belong to one unique team_thread, and this is done by referencing the id of the "teams" table.
+
+"user_id" is a foreign key for the "comments" table. It essentially establishes a zero to many-to-one and only one relationship between the one and only one User model and zero to many Comment models. Each comment will belong to one unique user, and this is done by referencing the id of the "users" table.
+
+#### Relationships
+
+"team_thread" will be represented by a one and only one-to-zero to many relationship between the one and only Team_thread model and zero to many Comment models. A comment can belong to one unique team_thread but in reverse, a team_thread can have zero to many comments. This is defined with db.Relationship. As for back_populates='comments', the Team_thread model's attribute called 'comments' will represent the comments relationship back to the team_thread. In essence, this means that the team_thread will show the many comments belonging to it. The parameter foreign_keys=[team_thread_id] is used when there is more than one foreign key in the relationship. In this case, team_thread_id is the foreign key in the Comment model that refers to the id column of the Team_thread model. The cascade='all, delete' parameter will essentially mean that any changes made to the Team_thread model will cascade to its relevant comments. If a team_thread is deleted, the comments belonging to it are deleted as well. Since there is no delete-orphan, the records will still be orphaned in the database, but will be removed once the session is committed.
+
+"user" will be represented by a zero to many-to-one and only one relationship between the one unique User model and zero to many Comment models. A comment can belong to one unique user but in reverse, a user can have zero to many comments. This is defined with db.Relationship. As for back_populates='comments', the User model's attribute called 'comments' will represent the comments relationship back to the user. In essence, this means that the user will show the many comments belonging to him. The parameter foreign_keys=[user_id] is used when there is more than one foreign key in the relationship. In this case, user_id is the foreign key in the Comment model that refers to the id column of the User model. The cascade='all, delete' parameter will essentially mean that any changes made to the User model will cascade to its relevant comments. If a user is deleted, the comments belonging to him are deleted as well. Since there is no delete-orphan, the records will still be orphaned in the database, but will be removed once the session is committed.
+
+## R9. Discuss the database relations to be implemented in your application
+
+![Alt text](<ERD diagram for soccer mania app.jpeg>)
+
+Please note that discussions held here will be done in terms of the ERD diagram show above.
+
+### User table
+
+The User table has one user_id, which serves as the primary key. Since there is only one primary key, the table is normalized. There is also one foreign key, which is "team_id". "team_id" represents a foreign key that ties the User table to the id of the Team. 
+The relationship line shows a zero to one-to-zero-to-many relationship between the zero to one User table and zero to many Team table. This means that a user can have zero to one team and a team can have zero to many users registered to it. 
+It also has a relationship with the Team_thread and Comment table, which will be discussed in their respective tables.
+
+### Team table
+
+The Team table has one team_id, which serves as the primary key. Since there is only one primary key, the table is normalized. There is no foreign keys to speak of. 
+The Team table also has relationships with the Manager, Player, Stadium, and Team_thread table, which will be discussed in their respective tables.
+
+### Team_thread table
+
+The Team_thread table has one team_thread_id, which serves as the primary key. Since there is only one primary key, the table is normalized. 
+There are two foreign keys, which are team_id and user_id. Team_id represents a foreign key that ties the Team_thread table to the id of the Team table. 
+The relationship line shows a zero to many-to-one and only one relationship between the zero to many Team_thread table and one and only one Team table. This means that a team_thread can belong to one unique team but a team can have zero to many team_threads. 
+The user_id represents a foreign key that ties the Team_thread table to the id of of the User table. 
+The relationship line shows a zero to many-to-one and only one relationship between the zero to many Team_thread table and one and only one User table.
+This means that a team_thread can belong to one unique user but a user can have zero to many team_threads.
+
+### Comment table
+
+The Comment table has one comment_id, which serves as the primary key. Since there is only one primary key, the table is normalized.
+There are two foreign keys, which are team_thread_id and user_id. Team_thread_id represents a foreign key that ties the Comment table to the id of the Team_thread table. 
+The relationship line shows a zero to many-to-one unique relationship between the zero to many Comment tables and one unique Team_thread table. This means that a comment can only belong to one unique team_thread, but a team_thread can have zero to many comments.
+The user_id represents a foreign key that ties the Comment table to the id of of the User table. 
+The relationship line shows a zero to many-to-one unique relationship between the zero to many Comment table and one unique User table. This means that a comment can only belong to one unique user, but a user can have zero to many comments.
+Since it has two foreign keys to both the Team_thread table and User table, the Comment table also acts as a join table. This essentially means each team_thread can have multiple users, and each users can create multiple team_threads.
+
+### Player table
+
+The Player table has one player_id, which serves as the primary key. Since there is only one primary key, the table is normalized.
+There is one foreign key, which is the team_id. Team_id represents a foreign key that ties the Player table to the id of the Team table.
+The relationship line shows a zero to many-to-zero to one relationship between the zero to many Player tables and zero to one Team table. This means that a player can belong to zero to one team, and a team can have zero to many players.
+
+### Manager table
+
+The Manager table has one manager_id, which serves as the primary key. Since there is only one primary key, the table is normalized.
+There is one foreign key, which is the team_id. Team_id represents a foreign key that ties the Manager table to the id of the Team table.
+The relationship line shows a zero to one-to-zero to one relationship between the zero to one Manager tables and zero to one Team table. This means that a manager can belong to zero to one team, and a team can have zero to one manager.
+
+### Stadium table
+
+The Stadium table has one stadium_id, which serves as the primary key. Since there is only one primary key, the table is normalized.
+There is one foreign key, which is the team_id. Team_id represents a foreign key that ties the Stadium table to the id of the Team table.
+The relationship line shows a zero to many-to-zero to one relationship between the zero to many Stadium tables and zero to one Team table. This essentially means that a stadium can belong to zero to one team, and a team can have zero to many stadiums hosting it.
+
+## R10
