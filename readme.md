@@ -430,7 +430,7 @@ If the user_to_update variable does not exist, an error message is given saying 
 
 ## R6. An ERD for your app
 
-![Alt text](<ERD diagram for soccer mania app.jpeg>)
+![Alt text](<docs/ERD diagram for soccer mania app.jpeg>)
 
 ## R7. Detail any third party services that your app will use
 
@@ -654,7 +654,7 @@ The Comment class has two foreign keys and two relationships which will be discu
 
 ## R9. Discuss the database relations to be implemented in your application
 
-![Alt text](<ERD diagram for soccer mania app.jpeg>)
+![Alt text](<docs/ERD diagram for soccer mania app.jpeg>)
 
 Please note that discussions held here will be done in terms of the ERD diagram show above.
 
@@ -705,4 +705,8 @@ The Stadium table has one stadium_id, which serves as the primary key. Since the
 There is one foreign key, which is the team_id. Team_id represents a foreign key that ties the Stadium table to the id of the Team table.
 The relationship line shows a zero to many-to-zero to one relationship between the zero to many Stadium tables and zero to one Team table. This essentially means that a stadium can belong to zero to one team, and a team can have zero to many stadiums hosting it.
 
-## R10
+## R10 Describe the way tasks are allocated and tracked in your project
+
+Trello link: https://trello.com/b/6CXGmoX9/soccer-mania-project
+
+Github link: 
