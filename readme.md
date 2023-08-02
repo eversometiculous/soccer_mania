@@ -709,4 +709,5 @@ The relationship line shows a zero to many-to-zero to one relationship between t
 
 Trello link: https://trello.com/b/6CXGmoX9/soccer-mania-project
 
+Disclaimer: If the code is unable to run, please go to github link and download the file again.There may be some issues as the application has been zipped and packed into two folders, src and docs.
 Github link: https://github.com/eversometiculous/soccer_mania
